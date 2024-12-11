@@ -14,7 +14,7 @@ export const logout = async () => {
   return resposnse
 }
 export const saveURL = async (data,Qrcode) => {
- console.log(111,data,222,Qrcode); 
+// console.log(111,data,222,Qrcode); 
   const resposnse = await api.post('/user/createLink',{
     title:data.title,
     longUrl:data.originalLink,
@@ -29,5 +29,9 @@ export const userLinks = async () => {
 }
 export const deleteLinks = async (linkId) => {
   const resposnse = await api.delete(`/user/${linkId}`)
+  return resposnse
+}
+export const takeUserUrl = async (url) => {
+  const resposnse = await api.post(`/user/url`,{url:url})
   return resposnse
 }

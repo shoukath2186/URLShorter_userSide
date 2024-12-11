@@ -51,7 +51,7 @@ const ResponsiveModal = ({ isOpen, onClose,url }) => {
        setChange(!ching)
        navigate(`/dashboard?id=${ching}`);
     } catch (error) {
-      console.log(400,error.response.data.message);
+      
       toast.error(error.response.data.message)
       
     }

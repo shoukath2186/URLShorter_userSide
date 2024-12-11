@@ -28,12 +28,14 @@ function Dashboard({ val = null }) {
             //  console.log(response.data);
             setLinks(response.data)
         } catch (error) {
-            console.log(400, error);
+           // console.log(400, error);
+            toast.error(error.response.data.message)
         }
     }
 
     const handleCopy = (url) => {
-        navigator.clipboard.writeText(url);
+        
+        navigator.clipboard.writeText(takebaseUrl()+url);
         toast.success(`URL copied to clipboard: ${url}`)
 
     };
@@ -94,7 +96,7 @@ function Dashboard({ val = null }) {
                                     </h2>
                                     <div className="flex space-x-2">
                                         <button
-                                            onClick={() => handleCopy(link.originalLink)}
+                                            onClick={() => handleCopy(link.shortenedLink)}
                                             className="text-gray-500 hover:text-blue-600 transition-colors p-1 rounded"
                                             title="Copy Link"
                                         >
@@ -136,12 +138,12 @@ function Dashboard({ val = null }) {
                                             Custom Link
                                         </label>
                                         <a
-                                            href={link.originalLink}
+                                            href={link.shortenedLink}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-green-600 dark:text-green-400 hover:underline truncate block"
                                         >
-                                            {takebaseUrl()}{link.customLink ? link.customLink : 'no'}
+                                            {takebaseUrl()}{link.shortenedLink ? link.shortenedLink : 'no'}
                                         </a>
                                     </div>
                                 </div>

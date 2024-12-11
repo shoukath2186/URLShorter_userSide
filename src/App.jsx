@@ -10,6 +10,7 @@ import Home from './pages/Home'
 import Register from './pages/Register';
 import LogIn from './pages/LogIn';
 import Dashboard from './pages/dashboard';
+import Sample from './components/Sample';
 
 import Footer from './components/Footer'
 import ProtectedRoute from './middleware/ProtectedRoute';
@@ -30,6 +31,9 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<LogIn />} />
+              <Route path='/*' element={<Sample />} />
+
+
             </Routes>
             <Footer />
           </div>
