@@ -9,7 +9,7 @@ import NavBar from './components/NavBar'
 import Home from './pages/Home'
 import Register from './pages/Register';
 import LogIn from './pages/LogIn';
-import Dashboard from './pages/dashboard';
+import Dashboard from './pages/Dashboard.jsx'; 
 import Sample from './components/Sample';
 
 import Footer from './components/Footer'
