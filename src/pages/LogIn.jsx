@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import { data, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../configaration/reducerFunction';
+import Loading from '../components/Loading';
+
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -15,9 +17,10 @@ function Login() {
 
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch();
-  const navegate=useNavigate()
+  const navegate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,21 +30,24 @@ function Login() {
     }));
   };
   async function loginUser(formData) {
+    setLoading(true)
     try {
-      const datas=await loginUs(formData);
-     // console.log(datas);
+      const datas = await loginUs(formData);
+      // console.log(datas);
       dispatch(setUserData(datas.data));
-       navegate('/')
-      
+      navegate('/')
+
     } catch (error) {
       // console.log(error.response.data.message);
-        toast.error(error.response.data.message)
+      toast.error(error.response.data.message)
+    }finally{
+      setLoading(false)
     }
   }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateLoginForm(formData, setErrors)) {
-      
+
       loginUser(formData)
 
     }
@@ -53,7 +59,7 @@ function Login() {
         <h2 className="text-3xl font-bold text-center text-gray-100 mb-8">
           Welcome Back
         </h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Input */}
           <div>
@@ -67,8 +73,8 @@ function Login() {
               value={formData.email}
               onChange={handleChange}
               className={`w-full p-3 rounded-md bg-gray-700 text-gray-100 
-                ${errors.email 
-                  ? 'border-2 border-red-500 focus:ring-red-500' 
+                ${errors.email
+                  ? 'border-2 border-red-500 focus:ring-red-500'
                   : 'border border-gray-600 focus:ring-blue-500'
                 } 
                 focus:outline-none focus:ring-2`}
@@ -92,8 +98,8 @@ function Login() {
                 value={formData.password}
                 onChange={handleChange}
                 className={`w-full p-3 rounded-md bg-gray-700 text-gray-100 
-                  ${errors.password 
-                    ? 'border-2 border-red-500 focus:ring-red-500' 
+                  ${errors.password
+                    ? 'border-2 border-red-500 focus:ring-red-500'
                     : 'border border-gray-600 focus:ring-blue-500'
                   } 
                   focus:outline-none focus:ring-2`}
@@ -127,8 +133,13 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors duration-300 font-semibold"
+              disabled={loading}
             >
-              Log In
+              {loading ? (
+                <Loading/>
+              ) : (
+                'Log In'
+              )}
             </button>
           </div>
 

@@ -7,6 +7,8 @@ import { setUserData } from '../configaration/reducerFunction';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
+
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -180,8 +182,13 @@ function Register() {
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors duration-300 font-semibold"
+              disabled={loading}
             >
-              Create Account
+              {loading ? (
+                <Loading/>
+              ) :(
+              'Create Account'
+              )}
             </button>
           </div>
 

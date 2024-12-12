@@ -9,13 +9,16 @@ import NavBar from './components/NavBar'
 import Home from './pages/Home'
 import Register from './pages/Register';
 import LogIn from './pages/LogIn';
-import Dashboard from './pages/Dashboard.jsx'; 
+import Dashboard from './pages/Dashboard.jsx';
 import Sample from './components/Sample';
 
 import Footer from './components/Footer'
 import ProtectedRoute from './middleware/ProtectedRoute';
+import RedirectRouter from './middleware/RedirectRouter.jsx';
+
 
 function App() {
+
 
   return (
     <Provider store={store}>
@@ -25,17 +28,20 @@ function App() {
             <ToastContainer />
             <NavBar />
             <Routes>
+
               <Route element={<ProtectedRoute />}>
                 <Route path='/dashboard' element={<Dashboard />} />
               </Route>
+
               <Route path='/' element={<Home />} />
-              <Route path='/register' element={<Register />} />
-              <Route path='/login' element={<LogIn />} />
               <Route path='/*' element={<Sample />} />
 
-
-            </Routes>
-            <Footer />
+              <Route element={<RedirectRouter />}>
+                <Route path='/register' element={<Register />} />
+                <Route path='/login' element={<LogIn />} />
+              </Route>
+             </Routes>
+              <Footer />
           </div>
         </>
       </Router>
