@@ -5,6 +5,7 @@ import { userLinks, deleteLinks } from '../configaration/endpoints';
 import { toast } from 'react-toastify';
 import QRCodeModal from '../components/QrCodeModal';
 import { useLocation } from "react-router-dom";
+import Loading from '../components/Loading';
 
 function Dashboard({ val = null }) {
 
@@ -12,6 +13,7 @@ function Dashboard({ val = null }) {
     const [links, setLinks] = useState([]);
     const [open, setOpen] = useState(false);
     const [qrCode, setQrCode] = useState(null);
+    const [loading,setLoading]=useState(false)
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -23,6 +25,7 @@ function Dashboard({ val = null }) {
         takeUserUrls()
     }, [id])
     async function takeUserUrls() {
+        setLoading(true)
         try {
             const response = await userLinks()
             //  console.log(response.data);
@@ -30,6 +33,8 @@ function Dashboard({ val = null }) {
         } catch (error) {
            // console.log(400, error);
             toast.error(error.response.data.message)
+        }finally{
+            setLoading(false)
         }
     }
 
@@ -85,7 +90,12 @@ function Dashboard({ val = null }) {
                     </div>
 
                     <div className="space-y-4">
-                        {links.map((link) => (
+                        {loading?(
+                            <>
+                            <Loading/>
+                            </>
+                        ):
+                        (links.map((link) => (
                             <div
                                 key={link._id}
                                 className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition-shadow duration-300"
@@ -152,7 +162,7 @@ function Dashboard({ val = null }) {
                                     <span>Created: {new Date(link.createdAt).toLocaleString()}</span>
                                 </div>
                             </div>
-                        ))}
+                        )))}
                     </div>
                 </div>
             </div>
