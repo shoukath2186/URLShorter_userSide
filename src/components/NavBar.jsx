@@ -6,12 +6,15 @@ import { logout } from '../configaration/endpoints';
 import { useDispatch } from 'react-redux';
 import { removeUserData } from '../configaration/reducerFunction';
 import { toast } from 'react-toastify';
+import Loading from '../components/Loading';
 function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+    const [loading, setLoading] = useState(false);
+
+
 
     const menuRef = useRef(null);
-    const user = useSelector((state) => state.user); 
+    const user = useSelector((state) => state.user);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -21,7 +24,7 @@ function NavBar() {
     }
 
     const handleLogout = async () => {
-
+        setLoading(true)
         try {
             const data = await logout()
             console.log(data);
@@ -31,8 +34,8 @@ function NavBar() {
             setIsMenuOpen(false);
         } catch (error) {
             console.log(error);
-            
-
+        }finally{
+            setLoading(false)
         }
 
     }
@@ -117,9 +120,20 @@ function NavBar() {
                                         <button
                                             onClick={handleLogout}
                                             className='w-full flex items-center px-4 py-2 text-red-400 hover:bg-gray-700 transition-colors'
+                                            disabled={loading}
                                         >
-                                            <LogOut className='w-5 h-5 mr-3' />
-                                            Logout
+                                            {loading ? (
+                                                <>
+                                                <Loading />
+                                                Logout
+                                                </>
+                                            ) : (
+                                                <>
+                                                <LogOut className='w-5 h-5 mr-3' />
+                                                Logout
+                                                </>
+                                                 
+                                            )}
                                         </button>
                                     </div>
                                 </div>
